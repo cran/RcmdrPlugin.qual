@@ -1,0 +1,15 @@
+# Some Rcmdr menus for the epack package
+# When the plug-in is loaded, these menus are merged with the standard Rcmdr menus
+
+# last modified: 16 May 2007 by J. Fox
+
+#   type    menu/item      operation/parent  label                              command/menu                activation    install?
+menu    tsdMenu       topMenu         ""                                      ""                          ""                      "" 
+item    tsdMenu       command         "Historical"              newHistPrice         ""                      "packageAvailable('tseries')"
+item    topMenu         cascade         "Ts-Data"                                 tsdMenu                   ""                      "packageAvailable('TeachingDemos')"
+
+menu    tsmMenu       topMenu         ""                                      ""                          ""                      "" 
+item    tsmMenu       command         "ARIMA Models..."              ArimaMod         "activeDataSetP()"                      "packageAvailable('tseries')"
+item    tsmMenu       command         "ARIMA Sims..."              Arima         ""              ""
+item    topMenu         cascade         "Ts-Models"                                 tsmMenu                   ""                      "packageAvailable('TeachingDemos')"
+       

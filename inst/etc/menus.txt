@@ -1,0 +1,22 @@
+# Some Rcmdr menus for the epack package
+# When the plug-in is loaded, these menus are merged with the standard Rcmdr menus
+
+# last modified: 10  August 2009 by Erin Hodgess
+
+#   type    menu/item      operation/parent  label                              command/menu                activation    install?
+menu    qualaMenu       topMenu         ""                                      ""                          ""                      "" 
+item    qualaMenu       command         "xbar chart"              xbara         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "r chart"              rchart         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "s chart"              schart         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "p chart"              pchart         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "np chart"              npchart         ""                      "packageAvailable('qcc')"
+
+
+item    topMenu         cascade         "Quality Control"                                 qualaMenu                   ""                      "packageAvailable('TeachingDemos')"
+
+ 
+
+
+
+
+
