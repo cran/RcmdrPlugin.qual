@@ -1,6 +1,6 @@
 # Some Rcmdr dialogs for the epack package
 
-# last modified: April 15 2009 by E. Hodgess
+# last modified: October 28 2009 by E. Hodgess
 
 # Note: the following function (with contributions from Richard Heiberger) 
 # can be included in any Rcmdr plug-in package to cause the package to load
@@ -292,4 +292,89 @@ tkgrid.configure(nEntry, sticky="w")
     dialogSuffix(rows=10, columns=2, focus=entryDsname)
     }
    
+
+
+shapeMod <- function(){
+    initializeDialog(title=gettextRcmdr("Shape a data frame"))
+    xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
+ 
+    onOK <- function(){
+        x <- getSelection(xBox)
+        if (length(x) == 0){
+            errorCondition(recall=shapeMod, message=gettextRcmdr("You must select a variable."))
+            return()
+            }
+
+   
+        freq1 <- tclvalue(freqVariable)
+	
+          closeDialog()
+#        doItAndPrint(paste("shape1(", ActiveDataSet(), "$", x,
+#            ",freq=",freq1,
+#            ")", sep=""))
+	command <- paste("shape1(", ActiveDataSet(), "$", x,
+         ",freq=",freq1,
+            ")", sep="")
+	justDoIt(command)
+        logger(command)
+        tkdestroy(top)
+        tkfocus(CommanderWindow())
+        }
+    OKCancelHelp(helpSubject="data.frame")
+    freqFrame <- tkframe(top)
+    freqVariable <- tclVar("1")
+    freqField <- tkentry(freqFrame, width="6", textvariable=freqVariable)
+      tkgrid(getFrame(xBox), sticky="nw") 
+   tkgrid(tklabel(freqFrame, text=gettextRcmdr("Number of rows: ")), freqField, sticky="w")
+    tkgrid(freqFrame, sticky="w")
+    tkgrid(buttonsFrame, columnspan=2, sticky="w")
+    tkgrid.configure(freqField, sticky="e")
+    dialogSuffix(rows=4, columns=2)
+    }
+
+shape1 <- function(x,freq) {
+	reshape = function(df,nrow,ncol,byrow=TRUE)data.frame(matrix(as.matrix(df),nrow,ncol,byrow=byrow))
+	n1 <- length(x)
+	nc1 <- floor(n1/freq)
+	y <- reshape(df=x,nrow=freq,ncol=nc1)
+	assign("new.df",y,envir=.GlobalEnv)
+	}
+
+paretoMod <- function(){
+    initializeDialog(title=gettextRcmdr("Pareto Chart"))
+    xBox <- variableListBox(top, Factors(), title=gettextRcmdr("Variable (pick one)"))
+ 
+    onOK <- function(){
+        x <- getSelection(xBox)
+        if (length(x) == 0){
+            errorCondition(recall=shapeMod, message=gettextRcmdr("You must select a variable."))
+            return()
+            }
+
+   
+	
+          closeDialog()
+#        doItAndPrint(paste("shape1(", ActiveDataSet(), "$", x,
+#            ",freq=",freq1,
+#            ")", sep=""))
+	command <- paste("pareto1(", ActiveDataSet(), "$", x,
+                   ")", sep="")
+	justDoIt(command)
+        logger(command)
+        tkdestroy(top)
+        tkfocus(CommanderWindow())
+        }
+    OKCancelHelp(helpSubject="barplot")
+      tkgrid(getFrame(xBox), sticky="nw") 
+
+   tkgrid(buttonsFrame, columnspan=2, sticky="w")
+       dialogSuffix(rows=4, columns=2)
+    }
+
+
+pareto1 <- function(x) {
+	y1 <- table(x)
+	barplot(rev(y1[order(y1)]))
+	abline(h=0)
+}
 

@@ -3,9 +3,12 @@
 \alias{xbara}
 \alias{rchart}
 \alias{schart}
-\alias{pchart}
 \alias{npchart}
-
+\alias{shapeMod}
+\alias{pchart}
+\alias{shape1}
+\alias{paretoMod}
+\alias{pareto1}
 
 
 

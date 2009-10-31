@@ -5,11 +5,14 @@
 
 #   type    menu/item      operation/parent  label                              command/menu                activation    install?
 menu    qualaMenu       topMenu         ""                                      ""                          ""                      "" 
+item    qualaMenu       command         "reshape data frame"              shapeMod         "activeDataSetP()"                      "packageAvailable('qcc')"
 item    qualaMenu       command         "xbar chart"              xbara         ""                      "packageAvailable('qcc')"
-item    qualaMenu       command         "r chart"              rchart         ""                      "packageAvailable('qcc')"
-item    qualaMenu       command         "s chart"              schart         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "R chart"              rchart         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "S chart"              schart         ""                      "packageAvailable('qcc')"
 item    qualaMenu       command         "p chart"              pchart         ""                      "packageAvailable('qcc')"
 item    qualaMenu       command         "np chart"              npchart         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "Pareto chart"              paretoMod         "factorsP()"                      "packageAvailable('qcc')"
+
 
 
 item    topMenu         cascade         "Quality Control"                                 qualaMenu                   ""                      "packageAvailable('TeachingDemos')"
