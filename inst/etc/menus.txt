@@ -12,6 +12,7 @@ item    qualaMenu       command         "S chart"              schart         ""
 item    qualaMenu       command         "p chart"              pchart         ""                      "packageAvailable('qcc')"
 item    qualaMenu       command         "np chart"              npchart         ""                      "packageAvailable('qcc')"
 item    qualaMenu       command         "Pareto chart"              paretoMod         "factorsP()"                      "packageAvailable('qcc')"
+item    qualaMenu       command         "Indiv. xbar"              xbaro         ""                      "packageAvailable('qcc')"
 
 
 

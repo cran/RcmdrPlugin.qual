@@ -378,3 +378,54 @@ pareto1 <- function(x) {
 	abline(h=0)
 }
 
+
+ 
+xbaro <- function() {
+	initializeDialog(title=gettextRcmdr("Xbar Chart for Individuals"))
+    dsname <- tclVar(gettextRcmdr("Dataset"))
+   
+    entryDsname <- tkentry(top, width="20", textvariable=dsname)
+    onOK <- function(){
+        dsnameValue <- trim.blanks(tclvalue(dsname))
+        if (dsnameValue == "") {
+            errorCondition(recall=xbaro, 
+                message=gettextRcmdr("You must enter the name of a data set."))  
+            return()
+            }  
+        if (!is.valid.name(dsnameValue)) {
+            errorCondition(recall=newDataSet,
+                message=paste('"', dsnameValue, '" ', gettextRcmdr("is not a valid name."), sep=""))
+            return()
+            }
+        if (is.element(dsnameValue, listDataSets())) {
+            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Data set")))){
+                newDataSet()
+                return()
+                }
+            }
+ 
+        
+ 	command <- paste('qcc(',dsnameValue,',"xbar.one")',sep="")
+#	assign(justDoIt(command), envir=.GlobalEnv)
+	justDoIt(command)
+        logger(command)
+
+ if (eval(parse(text=paste("nrow(", dsnameValue, ")"))) == 0){
+            errorCondition(recall=newHistPrice, message=gettextRcmdr("empty data set."))
+            return()
+            }
+        activeDataSet(dsnameValue)
+        closeDialog()
+        tkfocus(CommanderWindow())
+
+            }
+    OKCancelHelp(helpSubject="qcc")
+  
+  rightFrame <- tkframe(top)
+    tkgrid(tklabel(top, text=gettextRcmdr("Enter name for data set:")), entryDsname, sticky="e")
+    tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+    tkgrid.configure(entryDsname, sticky="w")
+    dialogSuffix(rows=10, columns=2, focus=entryDsname)
+    }
+

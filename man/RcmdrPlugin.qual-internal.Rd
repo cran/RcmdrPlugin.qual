@@ -9,6 +9,7 @@
 \alias{shape1}
 \alias{paretoMod}
 \alias{pareto1}
+\alias{xbaro}
 
 
 
