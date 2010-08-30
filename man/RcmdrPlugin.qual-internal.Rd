@@ -10,6 +10,7 @@
 \alias{paretoMod}
 \alias{pareto1}
 \alias{xbaro}
+\alias{ewMod}
 
 
 

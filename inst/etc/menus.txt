@@ -13,7 +13,7 @@ item    qualaMenu       command         "p chart"              pchart         ""
 item    qualaMenu       command         "np chart"              npchart         ""                      "packageAvailable('qcc')"
 item    qualaMenu       command         "Pareto chart"              paretoMod         "factorsP()"                      "packageAvailable('qcc')"
 item    qualaMenu       command         "Indiv. xbar"              xbaro         ""                      "packageAvailable('qcc')"
-
+item    qualaMenu       command         "EWMA chart"              ewMod         "activeDataSetP()"                      "packageAvailable('qcc')"
 
 
 item    topMenu         cascade         "Quality Control"                                 qualaMenu                   ""                      "packageAvailable('TeachingDemos')"

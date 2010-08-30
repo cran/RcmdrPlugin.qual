@@ -429,3 +429,25 @@ xbaro <- function() {
     dialogSuffix(rows=10, columns=2, focus=entryDsname)
     }
 
+ewMod <- function(){
+  initializeDialog(title=gettextRcmdr("EWMA"))
+  require(qcc)
+    xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
+    onOK <- function(){
+        x <- getSelection(xBox)
+	print(x)
+        if (length(x) == 0){
+            errorCondition(recall=ewMod, message=gettextRcmdr("You must select a variable."))
+            return()
+            }
+        closeDialog()
+    doItAndPrint(paste("ewma(", ActiveDataSet(), "$", x,")",sep=""))     
+	
+             tkdestroy(top)
+        tkfocus(CommanderWindow())
+        }
+    OKCancelHelp(helpSubject="ewma")
+   tkgrid(getFrame(xBox), sticky="nw") 
+    tkgrid(buttonsFrame, columnspan=2, sticky="w")
+     dialogSuffix(rows=4, columns=2)
+    }
