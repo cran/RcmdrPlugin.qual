@@ -11,6 +11,9 @@
 \alias{pareto1}
 \alias{xbaro}
 \alias{ewMod}
+\alias{sum1a}
+\alias{sum1Mod}
+\alias{hist1Mod}
 
 
 

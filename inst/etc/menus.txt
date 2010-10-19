@@ -16,6 +16,12 @@ item    qualaMenu       command         "Indiv. xbar"              xbaro        
 item    qualaMenu       command         "EWMA chart"              ewMod         "activeDataSetP()"                      "packageAvailable('qcc')"
 
 
+item    qualaMenu       command         "Histogram on QC data"              hist1Mod         "activeDataSetP()"                      "packageAvailable('stats')"
+
+
+item    qualaMenu       command         "Summary on QC data"              sum1Mod         "activeDataSetP()"                      "packageAvailable('stats')"
+
+
 item    topMenu         cascade         "Quality Control"                                 qualaMenu                   ""                      "packageAvailable('TeachingDemos')"
 
  

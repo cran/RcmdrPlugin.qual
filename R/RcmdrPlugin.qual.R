@@ -1,6 +1,6 @@
-# Some Rcmdr dialogs for the epack package
+# Some Rcmdr dialogs for the qual package
 
-# last modified: October 28 2009 by E. Hodgess
+# last modified: October 19 2010 by E. Hodgess
 
 # Note: the following function (with contributions from Richard Heiberger) 
 # can be included in any Rcmdr plug-in package to cause the package to load
@@ -21,198 +21,72 @@
     
    
 xbara <- function() {
-	initializeDialog(title=gettextRcmdr("Xbar Chart"))
-    dsname <- tclVar(gettextRcmdr("Dataset"))
-   
-    entryDsname <- tkentry(top, width="20", textvariable=dsname)
-    onOK <- function(){
-        dsnameValue <- trim.blanks(tclvalue(dsname))
-        if (dsnameValue == "") {
-            errorCondition(recall=xbara, 
-                message=gettextRcmdr("You must enter the name of a data set."))  
-            return()
-            }  
-        if (!is.valid.name(dsnameValue)) {
-            errorCondition(recall=newDataSet,
-                message=paste('"', dsnameValue, '" ', gettextRcmdr("is not a valid name."), sep=""))
-            return()
-            }
-        if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Data set")))){
-                newDataSet()
-                return()
-                }
-            }
- 
+	
+.activeDataSet <- ActiveDataSet()
         
- 	command <- paste('qcc(',dsnameValue,',"xbar")',sep="")
-#	assign(justDoIt(command), envir=.GlobalEnv)
+ 	command <- paste('qcc(',.activeDataSet,',"xbar")',sep="")
 	justDoIt(command)
         logger(command)
 
- if (eval(parse(text=paste("nrow(", dsnameValue, ")"))) == 0){
-            errorCondition(recall=newHistPrice, message=gettextRcmdr("empty data set."))
-            return()
-            }
-        activeDataSet(dsnameValue)
-        closeDialog()
         tkfocus(CommanderWindow())
 
             }
-    OKCancelHelp(helpSubject="qcc")
   
-  rightFrame <- tkframe(top)
-    tkgrid(tklabel(top, text=gettextRcmdr("Enter name for data set:")), entryDsname, sticky="e")
-    tkgrid(buttonsFrame, columnspan="2", sticky="w")
-  
-    tkgrid.configure(entryDsname, sticky="w")
-    dialogSuffix(rows=10, columns=2, focus=entryDsname)
-    }
+ 
 
 
 rchart <- function() {
-	initializeDialog(title=gettextRcmdr("r Chart"))
-    dsname <- tclVar(gettextRcmdr("Dataset"))
-   
-    entryDsname <- tkentry(top, width="20", textvariable=dsname)
-    onOK <- function(){
-        dsnameValue <- trim.blanks(tclvalue(dsname))
-        if (dsnameValue == "") {
-            errorCondition(recall=rchart, 
-                message=gettextRcmdr("You must enter the name of a data set."))  
-            return()
-            }  
-        if (!is.valid.name(dsnameValue)) {
-            errorCondition(recall=newDataSet,
-                message=paste('"', dsnameValue, '" ', gettextRcmdr("is not a valid name."), sep=""))
-            return()
-            }
-        if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Data set")))){
-                newDataSet()
-                return()
-                }
-            }
- 
+
+
+	
+.activeDataSet <- ActiveDataSet()
         
- 	command <- paste('qcc(',dsnameValue,',"R")',sep="")
-#	assign(justDoIt(command), envir=.GlobalEnv)
+ 	command <- paste('qcc(',.activeDataSet,',"R")',sep="")
 	justDoIt(command)
         logger(command)
 
- if (eval(parse(text=paste("nrow(", dsnameValue, ")"))) == 0){
-            errorCondition(recall=newHistPrice, message=gettextRcmdr("empty data set."))
-            return()
-            }
-        activeDataSet(dsnameValue)
-        closeDialog()
         tkfocus(CommanderWindow())
 
             }
-    OKCancelHelp(helpSubject="qcc")
   
-  rightFrame <- tkframe(top)
-    tkgrid(tklabel(top, text=gettextRcmdr("Enter name for data set:")), entryDsname, sticky="e")
-    tkgrid(buttonsFrame, columnspan="2", sticky="w")
-  
-    tkgrid.configure(entryDsname, sticky="w")
-    dialogSuffix(rows=10, columns=2, focus=entryDsname)
-    }
 
 
 schart <- function() {
-	initializeDialog(title=gettextRcmdr("s Chart"))
-    dsname <- tclVar(gettextRcmdr("Dataset"))
-   
-    entryDsname <- tkentry(top, width="20", textvariable=dsname)
-    onOK <- function(){
-        dsnameValue <- trim.blanks(tclvalue(dsname))
-        if (dsnameValue == "") {
-            errorCondition(recall=schart, 
-                message=gettextRcmdr("You must enter the name of a data set."))  
-            return()
-            }  
-        if (!is.valid.name(dsnameValue)) {
-            errorCondition(recall=newDataSet,
-                message=paste('"', dsnameValue, '" ', gettextRcmdr("is not a valid name."), sep=""))
-            return()
-            }
-        if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Data set")))){
-                newDataSet()
-                return()
-                }
-            }
- 
+
+
+	
+.activeDataSet <- ActiveDataSet()
         
- 	command <- paste('qcc(',dsnameValue,',"S")',sep="")
-#	assign(justDoIt(command), envir=.GlobalEnv)
+ 	command <- paste('qcc(',.activeDataSet,',"S")',sep="")
 	justDoIt(command)
         logger(command)
 
- if (eval(parse(text=paste("nrow(", dsnameValue, ")"))) == 0){
-            errorCondition(recall=newHistPrice, message=gettextRcmdr("empty data set."))
-            return()
-            }
-        activeDataSet(dsnameValue)
-        closeDialog()
         tkfocus(CommanderWindow())
 
             }
-    OKCancelHelp(helpSubject="qcc")
   
-  rightFrame <- tkframe(top)
-    tkgrid(tklabel(top, text=gettextRcmdr("Enter name for data set:")), entryDsname, sticky="e")
-    tkgrid(buttonsFrame, columnspan="2", sticky="w")
-  
-    tkgrid.configure(entryDsname, sticky="w")
-    dialogSuffix(rows=10, columns=2, focus=entryDsname)
-    }
+
+
 
 npchart <- function() {
 	initializeDialog(title=gettextRcmdr("np Chart"))
-    dsname <- tclVar(gettextRcmdr("Dataset"))
-   
-    entryDsname <- tkentry(top, width="20", textvariable=dsname)
- nVar <- tclVar("1")
+.activeDataSet <- ActiveDataSet()
+  nVar <- tclVar("1")
     nEntry <- tkentry(top, width="6", textvariable=nVar)
   
   
     onOK <- function(){
-        dsnameValue <- trim.blanks(tclvalue(dsname))
-        if (dsnameValue == "") {
-            errorCondition(recall=npchart, 
-                message=gettextRcmdr("You must enter the name of a data set."))  
-            return()
-            }  
-        if (!is.valid.name(dsnameValue)) {
-            errorCondition(recall=newDataSet,
-                message=paste('"', dsnameValue, '" ', gettextRcmdr("is not a valid name."), sep=""))
-            return()
-            }
-        if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Data set")))){
-                newDataSet()
-                return()
-                }
-            }
-    n <- round(as.numeric(tclvalue(nVar)))
+  n <- round(as.numeric(tclvalue(nVar)))
         if (is.na(n) || n <= 0){
             errorCondition(recall=pchart, message="Length must be a 
-			positive number.")
+			positive integer.")
             return()
             }
      
-        command <- paste('qcc(',dsnameValue,',"np",size=',n,')',sep="")
- #	assign(justDoIt(command), envir=.GlobalEnv)
-	justDoIt(command)
+        command <- paste('qcc(',.activeDataSet,',"np",size=',n,')',sep="")
+ 	justDoIt(command)
         logger(command)
 
- if (eval(parse(text=paste("nrow(", dsnameValue, ")"))) == 0){
-            errorCondition(recall=newHistPrice, message=gettextRcmdr("empty data set."))
-            return()
-            }
-        activeDataSet(dsnameValue)
         closeDialog()
         tkfocus(CommanderWindow())
 
@@ -220,61 +94,35 @@ npchart <- function() {
     OKCancelHelp(helpSubject="qcc")
   
   rightFrame <- tkframe(top)
-    tkgrid(tklabel(top, text=gettextRcmdr("Enter name for data set:")), entryDsname, sticky="e")
     tkgrid(tklabel(top, text="How many?"), nEntry, sticky="e")
   
     tkgrid(buttonsFrame, columnspan="2", sticky="w")
   
-    tkgrid.configure(entryDsname, sticky="w")
-tkgrid.configure(nEntry, sticky="w")
-    dialogSuffix(rows=10, columns=2, focus=entryDsname)
+ tkgrid.configure(nEntry, sticky="w")
+    dialogSuffix(rows=10, columns=2, focus=nEntry)
     }
 
 
 pchart <- function() {
 	initializeDialog(title=gettextRcmdr("p Chart"))
-    dsname <- tclVar(gettextRcmdr("Dataset"))
-   
-    entryDsname <- tkentry(top, width="20", textvariable=dsname)
- nVar <- tclVar("1")
+
+.activeDataSet <- ActiveDataSet()
+  nVar <- tclVar("1")
     nEntry <- tkentry(top, width="6", textvariable=nVar)
   
   
     onOK <- function(){
-        dsnameValue <- trim.blanks(tclvalue(dsname))
-        if (dsnameValue == "") {
-            errorCondition(recall=pchart, 
-                message=gettextRcmdr("You must enter the name of a data set."))  
-            return()
-            }  
-        if (!is.valid.name(dsnameValue)) {
-            errorCondition(recall=newDataSet,
-                message=paste('"', dsnameValue, '" ', gettextRcmdr("is not a valid name."), sep=""))
-            return()
-            }
-        if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Data set")))){
-                newDataSet()
-                return()
-                }
-            }
-    n <- round(as.numeric(tclvalue(nVar)))
+  n <- round(as.numeric(tclvalue(nVar)))
         if (is.na(n) || n <= 0){
             errorCondition(recall=pchart, message="Length must be a 
-			positive number.")
+			positive integer.")
             return()
             }
      
-        command <- paste('qcc(',dsnameValue,',"p",size=',n,')',sep="")
- #	assign(justDoIt(command), envir=.GlobalEnv)
-	justDoIt(command)
+        command <- paste('qcc(',.activeDataSet,',"np",size=',n,')',sep="")
+ 	justDoIt(command)
         logger(command)
 
- if (eval(parse(text=paste("nrow(", dsnameValue, ")"))) == 0){
-            errorCondition(recall=newHistPrice, message=gettextRcmdr("empty data set."))
-            return()
-            }
-        activeDataSet(dsnameValue)
         closeDialog()
         tkfocus(CommanderWindow())
 
@@ -282,22 +130,25 @@ pchart <- function() {
     OKCancelHelp(helpSubject="qcc")
   
   rightFrame <- tkframe(top)
-    tkgrid(tklabel(top, text=gettextRcmdr("Enter name for data set:")), entryDsname, sticky="e")
     tkgrid(tklabel(top, text="How many?"), nEntry, sticky="e")
   
     tkgrid(buttonsFrame, columnspan="2", sticky="w")
   
-    tkgrid.configure(entryDsname, sticky="w")
-tkgrid.configure(nEntry, sticky="w")
-    dialogSuffix(rows=10, columns=2, focus=entryDsname)
+ tkgrid.configure(nEntry, sticky="w")
+    dialogSuffix(rows=10, columns=2, focus=nEntry)
     }
-   
+
+
+
 
 
 shapeMod <- function(){
     initializeDialog(title=gettextRcmdr("Shape a data frame"))
     xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
- 
+  dsname <- tclVar(gettextRcmdr("Dataset"))
+   
+    entryDsname <- tkentry(top, width="20", textvariable=dsname)
+    
     onOK <- function(){
         x <- getSelection(xBox)
         if (length(x) == 0){
@@ -307,16 +158,38 @@ shapeMod <- function(){
 
    
         freq1 <- tclvalue(freqVariable)
+freq1 <- as.numeric(tclvalue(freqVariable))
+        if (is.na(freq1) || freq1 <= 0){
+            errorCondition(recall=shapeMod, message="Length must be a 
+			positive integer.")
+            return()
+            }
 	
+        dsnameValue <- trim.blanks(tclvalue(dsname))
+        if (dsnameValue == "") {
+            errorCondition(recall=shapeMod, 
+                message=gettextRcmdr("You must enter the name of a data set."))  
+            return()
+            }  
+        if (!is.valid.name(dsnameValue)) {
+            errorCondition(recall=newDataSet,
+                message=paste('"', dsnameValue, '" ', gettextRcmdr("is not a valid name."), sep=""))
+            return()
+            }
+        if (is.element(dsnameValue, listDataSets())) {
+            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Data set")))){
+                newDataSet()
+                return()
+                }
+            }
+  
           closeDialog()
-#        doItAndPrint(paste("shape1(", ActiveDataSet(), "$", x,
-#            ",freq=",freq1,
-#            ")", sep=""))
-	command <- paste("shape1(", ActiveDataSet(), "$", x,
+	command <- paste(dsnameValue, "<- shape1(", ActiveDataSet(), "$", x,
          ",freq=",freq1,
             ")", sep="")
 	justDoIt(command)
         logger(command)
+ activeDataSet(dsnameValue)
         tkdestroy(top)
         tkfocus(CommanderWindow())
         }
@@ -327,8 +200,14 @@ shapeMod <- function(){
       tkgrid(getFrame(xBox), sticky="nw") 
    tkgrid(tklabel(freqFrame, text=gettextRcmdr("Number of rows: ")), freqField, sticky="w")
     tkgrid(freqFrame, sticky="w")
+   tkgrid(tklabel(top, text=gettextRcmdr("Enter name for data set:")), entryDsname, sticky="e")
+  
     tkgrid(buttonsFrame, columnspan=2, sticky="w")
     tkgrid.configure(freqField, sticky="e")
+ tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+    tkgrid.configure(entryDsname, sticky="w")
+	
     dialogSuffix(rows=4, columns=2)
     }
 
@@ -337,7 +216,6 @@ shape1 <- function(x,freq) {
 	n1 <- length(x)
 	nc1 <- floor(n1/freq)
 	y <- reshape(df=x,nrow=freq,ncol=nc1)
-	assign("new.df",y,envir=.GlobalEnv)
 	}
 
 paretoMod <- function(){
@@ -347,16 +225,13 @@ paretoMod <- function(){
     onOK <- function(){
         x <- getSelection(xBox)
         if (length(x) == 0){
-            errorCondition(recall=shapeMod, message=gettextRcmdr("You must select a variable."))
+            errorCondition(recall=paretoMod, message=gettextRcmdr("You must select a variable."))
             return()
             }
 
    
 	
           closeDialog()
-#        doItAndPrint(paste("shape1(", ActiveDataSet(), "$", x,
-#            ",freq=",freq1,
-#            ")", sep=""))
 	command <- paste("pareto1(", ActiveDataSet(), "$", x,
                    ")", sep="")
 	justDoIt(command)
@@ -381,53 +256,20 @@ pareto1 <- function(x) {
 
  
 xbaro <- function() {
-	initializeDialog(title=gettextRcmdr("Xbar Chart for Individuals"))
-    dsname <- tclVar(gettextRcmdr("Dataset"))
-   
-    entryDsname <- tkentry(top, width="20", textvariable=dsname)
-    onOK <- function(){
-        dsnameValue <- trim.blanks(tclvalue(dsname))
-        if (dsnameValue == "") {
-            errorCondition(recall=xbaro, 
-                message=gettextRcmdr("You must enter the name of a data set."))  
-            return()
-            }  
-        if (!is.valid.name(dsnameValue)) {
-            errorCondition(recall=newDataSet,
-                message=paste('"', dsnameValue, '" ', gettextRcmdr("is not a valid name."), sep=""))
-            return()
-            }
-        if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Data set")))){
-                newDataSet()
-                return()
-                }
-            }
- 
+
+.activeDataSet <- ActiveDataSet()
         
- 	command <- paste('qcc(',dsnameValue,',"xbar.one")',sep="")
-#	assign(justDoIt(command), envir=.GlobalEnv)
+ 	command <- paste('qcc(',.activeDataSet,',"xbar.one")',sep="")
 	justDoIt(command)
         logger(command)
 
- if (eval(parse(text=paste("nrow(", dsnameValue, ")"))) == 0){
-            errorCondition(recall=newHistPrice, message=gettextRcmdr("empty data set."))
-            return()
-            }
-        activeDataSet(dsnameValue)
-        closeDialog()
         tkfocus(CommanderWindow())
 
             }
-    OKCancelHelp(helpSubject="qcc")
   
-  rightFrame <- tkframe(top)
-    tkgrid(tklabel(top, text=gettextRcmdr("Enter name for data set:")), entryDsname, sticky="e")
-    tkgrid(buttonsFrame, columnspan="2", sticky="w")
-  
-    tkgrid.configure(entryDsname, sticky="w")
-    dialogSuffix(rows=10, columns=2, focus=entryDsname)
-    }
+ 
+
+ 
 
 ewMod <- function(){
   initializeDialog(title=gettextRcmdr("EWMA"))
@@ -451,3 +293,43 @@ ewMod <- function(){
     tkgrid(buttonsFrame, columnspan=2, sticky="w")
      dialogSuffix(rows=4, columns=2)
     }
+
+
+
+hist1Mod <- function() {
+	
+.activeDataSet <- ActiveDataSet()
+
+
+      
+ 	command <- paste('hist(c(as.matrix(',.activeDataSet,')))',sep="")
+	justDoIt(command)
+        logger(command)
+
+        tkfocus(CommanderWindow())
+}
+
+
+
+
+sum1Mod <- function() {
+	
+.activeDataSet <- ActiveDataSet()
+
+
+    	command <- paste('sum1a(c(as.matrix(',.activeDataSet,')))',sep="")
+        doItAndPrint(command)	
+ 
+   
+
+        tkfocus(CommanderWindow())
+}
+
+
+sum1a <- function(x) {
+	z <- sd(x)
+	names(z) <- "sd"
+	y <- c(summary(x),z)
+	return(y)
+	}
+
