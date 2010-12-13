@@ -14,7 +14,14 @@
 \alias{sum1a}
 \alias{sum1Mod}
 \alias{hist1Mod}
-
+\alias{cchart}
+\alias{cusumMod}
+\alias{movranMod}
+\alias{movrange1}
+\alias{npschart}
+\alias{pschart}
+\alias{uchart}
+\alias{uschart}
 
 
 

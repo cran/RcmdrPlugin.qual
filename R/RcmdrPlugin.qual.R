@@ -119,7 +119,7 @@ pchart <- function() {
             return()
             }
      
-        command <- paste('qcc(',.activeDataSet,',"np",size=',n,')',sep="")
+        command <- paste('qcc(',.activeDataSet,',"p",size=',n,')',sep="")
  	justDoIt(command)
         logger(command)
 
@@ -312,6 +312,7 @@ hist1Mod <- function() {
 
 
 
+
 sum1Mod <- function() {
 	
 .activeDataSet <- ActiveDataSet()
@@ -333,3 +334,283 @@ sum1a <- function(x) {
 	return(y)
 	}
 
+
+pschart <- function() {
+	initializeDialog(title=gettextRcmdr("p Chart for different size samples"))
+
+     variablesFrame <- tkframe(top)
+    .numeric <- Numeric()
+    xBox <- variableListBox(variablesFrame, .numeric, 
+        title=gettextRcmdr("Select attribute variable)"))
+    yBox <- variableListBox(variablesFrame, .numeric, title=gettextRcmdr("Select size variable"))
+    onOK <- function(){
+        x <- getSelection(xBox)
+        y <- getSelection(yBox)
+        closeDialog()
+        if (0 == length(y)) {
+            errorCondition(recall=pschart, message=gettextRcmdr("You must select an attribute variable."))
+            return()
+            }
+        if (0 == length(x)) {
+            errorCondition(recall=pschart, message=gettextRcmdr("You must select a size variable."))
+            return()
+            }
+        if (is.element(y, x)) {
+            errorCondition(recall=pschart, message=gettextRcmdr("Attribute and size variables must be different."))
+            return()
+            }
+    
+        command <- paste('qcc(',ActiveDataSet(),'$',x,',"p",size=',ActiveDataSet(),'$',y,')',sep="")
+ 	justDoIt(command)
+        logger(command)
+
+        closeDialog()
+  tkdestroy(top)
+       tkfocus(CommanderWindow())
+
+            }
+    OKCancelHelp(helpSubject="qcc")
+  
+    tkgrid(getFrame(yBox), labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
+    tkgrid(variablesFrame, sticky="w")
+    
+    tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+    dialogSuffix(rows=4, columns=2)
+    }
+
+
+
+npschart <- function() {
+	initializeDialog(title=gettextRcmdr("np Chart for different size samples"))
+
+     variablesFrame <- tkframe(top)
+    .numeric <- Numeric()
+    xBox <- variableListBox(variablesFrame, .numeric, 
+        title=gettextRcmdr("Select attribute variable)"))
+    yBox <- variableListBox(variablesFrame, .numeric, title=gettextRcmdr("Select size variable"))
+    onOK <- function(){
+        x <- getSelection(xBox)
+        y <- getSelection(yBox)
+        closeDialog()
+        if (0 == length(y)) {
+            errorCondition(recall=npschart, message=gettextRcmdr("You must select an attribute variable."))
+            return()
+            }
+        if (0 == length(x)) {
+            errorCondition(recall=npschart, message=gettextRcmdr("You must select a size variable."))
+            return()
+            }
+        if (is.element(y, x)) {
+            errorCondition(recall=npschart, message=gettextRcmdr("Attribute and size variables must be different."))
+            return()
+            }
+    
+        command <- paste('qcc(',ActiveDataSet(),'$',x,',"np",size=',ActiveDataSet(),'$',y,')',sep="")
+ 	justDoIt(command)
+        logger(command)
+
+        closeDialog()
+  tkdestroy(top)
+       tkfocus(CommanderWindow())
+
+            }
+    OKCancelHelp(helpSubject="qcc")
+  
+    tkgrid(getFrame(yBox), labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
+    tkgrid(variablesFrame, sticky="w")
+    
+    tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+    dialogSuffix(rows=4, columns=2)
+    }
+
+
+cchart <- function() {
+	initializeDialog(title=gettextRcmdr("c Chart"))
+
+.activeDataSet <- ActiveDataSet()
+  nVar <- tclVar("1")
+    nEntry <- tkentry(top, width="6", textvariable=nVar)
+  
+  
+    onOK <- function(){
+  n <- round(as.numeric(tclvalue(nVar)))
+        if (is.na(n) || n <= 0){
+            errorCondition(recall=cchart, message="Length must be a 
+			positive integer.")
+            return()
+            }
+     
+        command <- paste('qcc(',.activeDataSet,',"c",size=',n,')',sep="")
+ 	justDoIt(command)
+        logger(command)
+
+        closeDialog()
+        tkfocus(CommanderWindow())
+
+            }
+    OKCancelHelp(helpSubject="qcc")
+  
+  rightFrame <- tkframe(top)
+    tkgrid(tklabel(top, text="How many?"), nEntry, sticky="e")
+  
+    tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+ tkgrid.configure(nEntry, sticky="w")
+    dialogSuffix(rows=10, columns=2, focus=nEntry)
+    }
+
+
+uchart <- function() {
+	initializeDialog(title=gettextRcmdr("u Chart"))
+
+.activeDataSet <- ActiveDataSet()
+  nVar <- tclVar("1")
+    nEntry <- tkentry(top, width="6", textvariable=nVar)
+  
+  
+    onOK <- function(){
+  n <- round(as.numeric(tclvalue(nVar)))
+        if (is.na(n) || n <= 0){
+            errorCondition(recall=uchart, message="Length must be a 
+			positive integer.")
+            return()
+            }
+     
+        command <- paste('qcc(',.activeDataSet,',"u",size=',n,')',sep="")
+ 	justDoIt(command)
+        logger(command)
+
+        closeDialog()
+        tkfocus(CommanderWindow())
+
+            }
+    OKCancelHelp(helpSubject="qcc")
+  
+  rightFrame <- tkframe(top)
+    tkgrid(tklabel(top, text="How many?"), nEntry, sticky="e")
+  
+    tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+ tkgrid.configure(nEntry, sticky="w")
+    dialogSuffix(rows=10, columns=2, focus=nEntry)
+    }
+
+
+
+uschart <- function() {
+	initializeDialog(title=gettextRcmdr("u Chart for different size samples"))
+
+     variablesFrame <- tkframe(top)
+    .numeric <- Numeric()
+    xBox <- variableListBox(variablesFrame, .numeric, 
+        title=gettextRcmdr("Select attribute variable)"))
+    yBox <- variableListBox(variablesFrame, .numeric, title=gettextRcmdr("Select size variable"))
+    onOK <- function(){
+        x <- getSelection(xBox)
+        y <- getSelection(yBox)
+        closeDialog()
+        if (0 == length(y)) {
+            errorCondition(recall=uschart, message=gettextRcmdr("You must select an attribute variable."))
+            return()
+            }
+        if (0 == length(x)) {
+            errorCondition(recall=uschart, message=gettextRcmdr("You must select a size variable."))
+            return()
+            }
+        if (is.element(y, x)) {
+            errorCondition(recall=uschart, message=gettextRcmdr("Attribute and size variables must be different."))
+            return()
+            }
+    
+        command <- paste('qcc(',ActiveDataSet(),'$',x,',"u",size=',ActiveDataSet(),'$',y,')',sep="")
+ 	justDoIt(command)
+        logger(command)
+
+        closeDialog()
+  tkdestroy(top)
+       tkfocus(CommanderWindow())
+
+            }
+    OKCancelHelp(helpSubject="qcc")
+  
+    tkgrid(getFrame(yBox), labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
+    tkgrid(variablesFrame, sticky="w")
+    
+    tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+    dialogSuffix(rows=4, columns=2)
+    }
+
+
+cusumMod <- function(){
+  initializeDialog(title=gettextRcmdr("CUSUM chart"))
+  require(qcc)
+    xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
+    onOK <- function(){
+        x <- getSelection(xBox)
+	print(x)
+        if (length(x) == 0){
+            errorCondition(recall=cusumMod, message=gettextRcmdr("You must select a variable."))
+            return()
+            }
+        closeDialog()
+    doItAndPrint(paste("cusum(", ActiveDataSet(), "$", x,",plot=TRUE)",sep=""))     
+	
+             tkdestroy(top)
+        tkfocus(CommanderWindow())
+        }
+    OKCancelHelp(helpSubject="cusum")
+   tkgrid(getFrame(xBox), sticky="nw") 
+    tkgrid(buttonsFrame, columnspan=2, sticky="w")
+     dialogSuffix(rows=4, columns=2)
+    }
+
+
+
+
+movranMod <- function(){
+  initializeDialog(title=gettextRcmdr("Moving Range chart"))
+  require(qcc)
+    xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
+    onOK <- function(){
+        x <- getSelection(xBox)
+	print(x)
+        if (length(x) == 0){
+            errorCondition(recall=cusumMod, message=gettextRcmdr("You must select a variable."))
+            return()
+            }
+        closeDialog()
+    doItAndPrint(paste("movrange1(", ActiveDataSet(), "$", x,")",sep=""))     
+	
+             tkdestroy(top)
+        tkfocus(CommanderWindow())
+        }
+    OKCancelHelp(helpSubject="qcc")
+   tkgrid(getFrame(xBox), sticky="nw") 
+    tkgrid(buttonsFrame, columnspan=2, sticky="w")
+     dialogSuffix(rows=4, columns=2)
+    }
+
+
+
+
+movrange1 <- function(x) {
+	  require(qcc)	  
+	  n1 <- length(x)
+	  y <- numeric(length=(n1-1))
+	  for(i in 1:(n1-1)) {
+	  	y[i] <- abs(x[i+1]-x[i])
+		}
+	  ym <- mean(y)
+	  ysd <- ym/1.128
+	  d3 <- qcc.options("se.R.unscaled")
+	  ucl <- ym + 3*d3[n1]*ysd
+	  lcl <- max(0,ym-3*d3[n1]*ysd)
+	  cc <- ifelse(y>=ucl,"red","black")
+	  plot(y,ylim=c(0,max(ucl,y)),type="b",pch=16,col=cc,main="Moving Range Chart")
+	  abline(h=ym)
+	  abline(h=ucl,lty=2)
+	  abline(h=lcl,lty=2)
+	  }

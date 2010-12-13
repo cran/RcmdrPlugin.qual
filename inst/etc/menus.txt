@@ -5,21 +5,43 @@
 
 #   type    menu/item      operation/parent  label                              command/menu                activation    install?
 menu    qualaMenu       topMenu         ""                                      ""                          ""                      "" 
+
+
 item    qualaMenu       command         "reshape data frame"              shapeMod         "activeDataSetP()"                      "packageAvailable('qcc')"
 item    qualaMenu       command         "xbar chart"              xbara         ""                      "packageAvailable('qcc')"
 item    qualaMenu       command         "R chart"              rchart         ""                      "packageAvailable('qcc')"
 item    qualaMenu       command         "S chart"              schart         ""                      "packageAvailable('qcc')"
 item    qualaMenu       command         "p chart"              pchart         ""                      "packageAvailable('qcc')"
 item    qualaMenu       command         "np chart"              npchart         ""                      "packageAvailable('qcc')"
+
+item    qualaMenu       command         "c chart"              cchart         ""                      "packageAvailable('qcc')"
+
+item    qualaMenu       command         "u chart"              uchart         ""                      "packageAvailable('qcc')"
+
+
 item    qualaMenu       command         "Pareto chart"              paretoMod         "factorsP()"                      "packageAvailable('qcc')"
 item    qualaMenu       command         "Indiv. xbar"              xbaro         ""                      "packageAvailable('qcc')"
+
+item    qualaMenu       command         "Moving Range Chart"              movranMod         ""                      "packageAvailable('qcc')"
+
 item    qualaMenu       command         "EWMA chart"              ewMod         "activeDataSetP()"                      "packageAvailable('qcc')"
+
+
+item    qualaMenu       command         "CUSUM chart"              cusumMod         "activeDataSetP()"                      "packageAvailable('qcc')"
 
 
 item    qualaMenu       command         "Histogram on QC data"              hist1Mod         "activeDataSetP()"                      "packageAvailable('stats')"
 
 
 item    qualaMenu       command         "Summary on QC data"              sum1Mod         "activeDataSetP()"                      "packageAvailable('stats')"
+
+item    qualaMenu       command         "p chart for different sizes"              pschart         "activeDataSetP()"                      "packageAvailable('qcc')"
+
+
+item    qualaMenu       command         "np chart for different sizes"              npschart         "activeDataSetP()"                      "packageAvailable('qcc')"
+
+item    qualaMenu       command         "u chart for different sizes"              uschart         "activeDataSetP()"                      "packageAvailable('qcc')"
+
 
 
 item    topMenu         cascade         "Quality Control"                                 qualaMenu                   ""                      "packageAvailable('TeachingDemos')"
