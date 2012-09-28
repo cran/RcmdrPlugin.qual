@@ -185,7 +185,7 @@ freq1 <- as.numeric(tclvalue(freqVariable))
   
           closeDialog()
 	command <- paste(dsnameValue, "<- shape1(", ActiveDataSet(), "$", x,
-         ",frequency=",freq1,
+         ",freq=",freq1,
             ")", sep="")
 	justDoIt(command)
         logger(command)
@@ -212,10 +212,10 @@ freq1 <- as.numeric(tclvalue(freqVariable))
     }
 
 shape1 <- function(x,freq) {
-	reshape = function(df,nrow,ncol,byrow=TRUE)data.frame(matrix(as.matrix(df),nrow,ncol,byrow=byrow))
+	reshape1<-  function(df,nrow,ncol,byrow=TRUE)data.frame(matrix(as.matrix(df),nrow,ncol,byrow=byrow))
 	n1 <- length(x)
 	nc1 <- floor(n1/freq)
-	y <- reshape(df=x,nrow=freq,ncol=nc1)
+	y <- reshape1(df=x,nrow=freq,ncol=nc1)
 	}
 
 paretoMod <- function(){
@@ -614,3 +614,103 @@ movrange1 <- function(x) {
 	  abline(h=ucl,lty=2)
 	  abline(h=lcl,lty=2)
 	  }
+
+gofMod <- function(){
+    initializeDialog(title=gettextRcmdr("Goodness of Fit for a Variable"))
+    xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
+    
+    onOK <- function(){
+        x <- getSelection(xBox)
+        if (length(x) == 0){
+            errorCondition(recall=gofMod, message=gettextRcmdr("You must select a variable."))
+            return()
+            }
+
+  
+          closeDialog()
+	command <- paste("gof1(", ActiveDataSet(), "$", x,
+            ")", sep="")
+
+	     doItAndPrint(command)
+
+
+
+        tkdestroy(top)
+        tkfocus(CommanderWindow())
+        }
+    OKCancelHelp(helpSubject="data.frame")
+      tkgrid(getFrame(xBox), sticky="nw") 
+  
+    tkgrid(buttonsFrame, columnspan=2, sticky="w")
+ tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+	
+    dialogSuffix(rows=4, columns=2)
+    }
+
+
+
+
+
+gof1 <- function(x) {
+	require(MASS)
+	require(vcd)
+        if(all(x>0)) {
+	xw <- fitdistr(x,densfun=dweibull,start=list(scale=1,shape=2))
+	xl <- fitdistr(x,densfun="lognormal")
+	xkw <- ks.test(x,"pweibull",scale=xw[[1]][1],shape=xw[[1]][2])
+	xkl <- ks.test(x,"plnorm",xl[[1]][1],xl[[1]][2])
+	}
+	xn <- fitdistr(x,densfun="normal")
+	xkn <- ks.test(x,"pnorm",xn[[1]][1],xn[[1]][2])
+	if(all(x>0)){
+	p1 <- max(xkw$p,xkn$p,xkl$p)
+	if(p1==xkw$p)z <- list(p=p1,dist="Weibull")
+	if(p1==xkn$p)z <- list(p=p1,dist="Normal")
+	if(p1==xkl$p)z <- list(p=p1,dist="Lognormal")
+	}
+	else {
+	z <- list(p=xkn$p,dist="Normal")
+	}
+	return(z)
+
+}
+xbarnew  <- function () {
+	 dataSets <- listDataSets()
+	 	initializeDialog(title=gettextRcmdr("Select Data Sets"))
+	dataSetsBox1 <- variableListBox(top, dataSets, title=gettextRcmdr("Data Set One  (pick one)"))
+	dataSetsBox2 <- variableListBox(top, dataSets, title=gettextRcmdr("Data Set Two  (pick one)"))
+
+
+	onOK <- function(){
+	x <- getSelection(dataSetsBox1)
+        y <- getSelection(dataSetsBox2)
+		if (length(x) == 0 | length(y) == 0) {
+			errorCondition(recall = xbarnew, message = gettextRcmdr("You must select two Sets."))
+				return()
+}
+	if(x==y) {
+		 errorCondition(recall=xbarnew,message= gettextRcmdr("The two sets must be different"))
+		 x <- NULL
+		 y <- NULL
+		 }
+
+
+
+	closeDialog()
+
+ 	command <- paste('qcc(',x,',"xbar",newdata=',y,')',sep="")
+		doItAndPrint(command)
+		tkdestroy(top)
+
+
+		tkfocus(CommanderWindow())
+	}
+	OKCancelHelp(helpSubject="qcc")
+	
+	tkgrid(getFrame(dataSetsBox1), getFrame(dataSetsBox2),sticky="nw")
+	tkgrid(buttonsFrame, sticky="w")
+	dialogSuffix(rows=3, columns=2)
+}
+
+

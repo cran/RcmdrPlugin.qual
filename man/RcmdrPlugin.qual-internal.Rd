@@ -22,7 +22,9 @@
 \alias{pschart}
 \alias{uchart}
 \alias{uschart}
-
+\alias{gof1}
+\alias{gofMod}
+\alias{xbarnew}
 
 
 
