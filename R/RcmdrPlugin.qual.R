@@ -20,6 +20,8 @@
 
     
    
+
+
 xbara <- function() {
 	
 .activeDataSet <- ActiveDataSet()
@@ -32,7 +34,8 @@ xbara <- function() {
 
             }
   
- 
+
+	
 
 
 rchart <- function() {
@@ -70,89 +73,13 @@ schart <- function() {
 
 npchart <- function() {
 	initializeDialog(title=gettextRcmdr("np Chart"))
-.activeDataSet <- ActiveDataSet()
-  nVar <- tclVar("1")
-    nEntry <- tkentry(top, width="6", textvariable=nVar)
-  
-  
-    onOK <- function(){
-  n <- round(as.numeric(tclvalue(nVar)))
-        if (is.na(n) || n <= 0){
-            errorCondition(recall=pchart, message="Length must be a 
-			positive integer.")
-            return()
-            }
-     
-        command <- paste('qcc(',.activeDataSet,',"np",size=',n,')',sep="")
- 	justDoIt(command)
-        logger(command)
 
-        closeDialog()
-        tkfocus(CommanderWindow())
-
-            }
-    OKCancelHelp(helpSubject="qcc")
-  
-  rightFrame <- tkframe(top)
-    tkgrid(tklabel(top, text="How many?"), nEntry, sticky="e")
-  
-    tkgrid(buttonsFrame, columnspan="2", sticky="w")
-  
- tkgrid.configure(nEntry, sticky="w")
-    dialogSuffix(rows=10, columns=2, focus=nEntry)
-    }
-
-
-pchart <- function() {
-	initializeDialog(title=gettextRcmdr("p Chart"))
-
-.activeDataSet <- ActiveDataSet()
-  nVar <- tclVar("1")
-    nEntry <- tkentry(top, width="6", textvariable=nVar)
-  
-  
-    onOK <- function(){
-  n <- round(as.numeric(tclvalue(nVar)))
-        if (is.na(n) || n <= 0){
-            errorCondition(recall=pchart, message="Length must be a 
-			positive integer.")
-            return()
-            }
-     
-        command <- paste('qcc(',.activeDataSet,',"p",size=',n,')',sep="")
- 	justDoIt(command)
-        logger(command)
-
-        closeDialog()
-        tkfocus(CommanderWindow())
-
-            }
-    OKCancelHelp(helpSubject="qcc")
-  
-  rightFrame <- tkframe(top)
-    tkgrid(tklabel(top, text="How many?"), nEntry, sticky="e")
-  
-    tkgrid(buttonsFrame, columnspan="2", sticky="w")
-  
- tkgrid.configure(nEntry, sticky="w")
-    dialogSuffix(rows=10, columns=2, focus=nEntry)
-    }
-
-
-
-
-
-shapeMod <- function(){
-    initializeDialog(title=gettextRcmdr("Shape a data frame"))
-    xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
-  dsname <- tclVar(gettextRcmdr("Dataset"))
-   
-    entryDsname <- tkentry(top, width="20", textvariable=dsname)
+  xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
     
     onOK <- function(){
         x <- getSelection(xBox)
         if (length(x) == 0){
-            errorCondition(recall=shapeMod, message=gettextRcmdr("You must select a variable."))
+            errorCondition(recall=npchart, message=gettextRcmdr("You must select a variable."))
             return()
             }
 
@@ -160,54 +87,182 @@ shapeMod <- function(){
         freq1 <- tclvalue(freqVariable)
 freq1 <- as.numeric(tclvalue(freqVariable))
         if (is.na(freq1) || freq1 <= 0){
-            errorCondition(recall=shapeMod, message="Length must be a 
+            errorCondition(recall=npchart, message="Length must be a 
 			positive integer.")
             return()
             }
 	
-        dsnameValue <- trim.blanks(tclvalue(dsname))
-        if (dsnameValue == "") {
-            errorCondition(recall=shapeMod, 
-                message=gettextRcmdr("You must enter the name of a data set."))  
-            return()
-            }  
-        if (!is.valid.name(dsnameValue)) {
-            errorCondition(recall=newDataSet,
-                message=paste('"', dsnameValue, '" ', gettextRcmdr("is not a valid name."), sep=""))
-            return()
-            }
-        if (is.element(dsnameValue, listDataSets())) {
-            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Data set")))){
-                newDataSet()
-                return()
-                }
-            }
+         closeDialog()
+
+ command <- paste('qcc(',ActiveDataSet(),'$',x,',"np",size=',freq1,')',sep="")
+ 
+
+	justDoIt(command)
+        logger(command)
+        tkdestroy(top)
+        tkfocus(CommanderWindow())
+        }
+ 
+
+    OKCancelHelp(helpSubject="qcc")
+    freqFrame <- tkframe(top)
+    freqVariable <- tclVar("1")
+    freqField <- tkentry(freqFrame, width="6", textvariable=freqVariable)
+      tkgrid(getFrame(xBox), sticky="nw") 
+   tkgrid(tklabel(freqFrame, text=gettextRcmdr("How many? ")), freqField, sticky="w")
+    tkgrid(freqFrame, sticky="w")
   
-          closeDialog()
+    tkgrid(buttonsFrame, columnspan=2, sticky="w")
+    tkgrid.configure(freqField, sticky="e")
+ tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+ 	
+    dialogSuffix(rows=4, columns=2)
+    }
+
+
+
+
+
+
+
+
+
+
+
+pchart <- function() {
+	initializeDialog(title=gettextRcmdr("p Chart"))
+
+
+   xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
+    
+    onOK <- function(){
+        x <- getSelection(xBox)
+        if (length(x) == 0){
+            errorCondition(recall=pchart, message=gettextRcmdr("You must select a variable."))
+            return()
+            }
+
+   
+        freq1 <- tclvalue(freqVariable)
+freq1 <- as.numeric(tclvalue(freqVariable))
+        if (is.na(freq1) || freq1 <= 0){
+            errorCondition(recall=pchart, message="Length must be a 
+			positive integer.")
+            return()
+            }
+	
+         closeDialog()
+
+ command <- paste('qcc(',ActiveDataSet(),'$',x,',"p",size=',freq1,')',sep="")
+ 
+
+	justDoIt(command)
+        logger(command)
+        tkdestroy(top)
+        tkfocus(CommanderWindow())
+        }
+    OKCancelHelp(helpSubject="qcc")
+    freqFrame <- tkframe(top)
+    freqVariable <- tclVar("1")
+    freqField <- tkentry(freqFrame, width="6", textvariable=freqVariable)
+      tkgrid(getFrame(xBox), sticky="nw") 
+   tkgrid(tklabel(freqFrame, text=gettextRcmdr("How many? ")), freqField, sticky="w")
+    tkgrid(freqFrame, sticky="w")
+  
+    tkgrid(buttonsFrame, columnspan=2, sticky="w")
+    tkgrid.configure(freqField, sticky="e")
+ tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+ 	
+    dialogSuffix(rows=4, columns=2)
+    }
+
+
+
+
+
+
+  
+
+shapeMod <- function(){
+    initializeDialog(title=gettextRcmdr("Shape a data frame"))
+    xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
+    
+    onOK <- function(){
+        x <- getSelection(xBox)
+        if (length(x) == 0){
+            errorCondition(recall=pchart, message=gettextRcmdr("You must select a variable."))
+            return()
+            }
+
+   
+        freq1 <- tclvalue(freqVariable)
+freq1 <- as.numeric(tclvalue(freqVariable))
+        if (is.na(freq1) || freq1 <= 0){
+            errorCondition(recall=pchart, message="Length must be a 
+			positive integer.")
+            return()
+            }
+	
 	command <- paste(dsnameValue, "<- shape1(", ActiveDataSet(), "$", x,
          ",freq=",freq1,
             ")", sep="")
+	justDoIt(command)
+        logger(command)
+activeDataSet(dsnameValue)
+
+         closeDialog()
+
+       freqFrame <- tkframe(top)
+    freqVariable <- tclVar("1")
+    freqField <- tkentry(freqFrame, width="6", textvariable=freqVariable)
+      tkgrid(getFrame(xBox), sticky="nw") 
+   tkgrid(tklabel(freqFrame, text=gettextRcmdr("Number of rows: ")), freqField, sticky="w")
+    tkgrid(freqFrame, sticky="w")
+  
+    tkgrid(buttonsFrame, columnspan=2, sticky="w")
+    tkgrid.configure(freqField, sticky="e")
+ tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+ 	
+    dialogSuffix(rows=4, columns=2)
+    }
+
+
+shape1 <- function(x,freq) {
+	reshape = function(df,nrow,ncol,byrow=TRUE)data.frame(matrix(as.matrix(df),nrow,ncol,byrow=byrow))
+	n1 <- length(x)
+	nc1 <- floor(n1/freq)
+	y <- reshape(df=x,nrow=freq,ncol=nc1)
+	assign("new.df",y,envir=.GlobalEnv)
+	}
+
+paretoMod <- function(){
+
+
+ command <- paste('qcc(',ActiveDataSet(),'$',x,',"p",size=',freq1,')',sep="")
+ 
+
 	justDoIt(command)
         logger(command)
  activeDataSet(dsnameValue)
         tkdestroy(top)
         tkfocus(CommanderWindow())
         }
-    OKCancelHelp(helpSubject="data.frame")
+    OKCancelHelp(helpSubject="qcc")
     freqFrame <- tkframe(top)
     freqVariable <- tclVar("1")
     freqField <- tkentry(freqFrame, width="6", textvariable=freqVariable)
       tkgrid(getFrame(xBox), sticky="nw") 
    tkgrid(tklabel(freqFrame, text=gettextRcmdr("Number of rows: ")), freqField, sticky="w")
     tkgrid(freqFrame, sticky="w")
-   tkgrid(tklabel(top, text=gettextRcmdr("Enter name for data set:")), entryDsname, sticky="e")
   
     tkgrid(buttonsFrame, columnspan=2, sticky="w")
     tkgrid.configure(freqField, sticky="e")
  tkgrid(buttonsFrame, columnspan="2", sticky="w")
   
-    tkgrid.configure(entryDsname, sticky="w")
-	
+ 	
     dialogSuffix(rows=4, columns=2)
     }
 
@@ -713,4 +768,48 @@ xbarnew  <- function () {
 	dialogSuffix(rows=3, columns=2)
 }
 
+
+cschart <- function() {
+	initializeDialog(title=gettextRcmdr("c Chart for different size samples"))
+
+     variablesFrame <- tkframe(top)
+    .numeric <- Numeric()
+    xBox <- variableListBox(variablesFrame, .numeric, 
+        title=gettextRcmdr("Select attribute variable)"))
+    yBox <- variableListBox(variablesFrame, .numeric, title=gettextRcmdr("Select size variable"))
+    onOK <- function(){
+        x <- getSelection(xBox)
+        y <- getSelection(yBox)
+        closeDialog()
+        if (0 == length(y)) {
+            errorCondition(recall=cschart, message=gettextRcmdr("You must select an attribute variable."))
+            return()
+            }
+        if (0 == length(x)) {
+            errorCondition(recall=cschart, message=gettextRcmdr("You must select a size variable."))
+            return()
+            }
+        if (is.element(y, x)) {
+            errorCondition(recall=cschart, message=gettextRcmdr("Attribute and size variables must be different."))
+            return()
+            }
+    
+        command <- paste('qcc(',ActiveDataSet(),'$',x,',"c",size=',ActiveDataSet(),'$',y,')',sep="")
+ 	justDoIt(command)
+        logger(command)
+
+        closeDialog()
+  tkdestroy(top)
+       tkfocus(CommanderWindow())
+
+            }
+    OKCancelHelp(helpSubject="qcc")
+  
+    tkgrid(getFrame(yBox), labelRcmdr(variablesFrame, text="    "), getFrame(xBox), sticky="nw")
+    tkgrid(variablesFrame, sticky="w")
+    
+    tkgrid(buttonsFrame, columnspan="2", sticky="w")
+  
+    dialogSuffix(rows=4, columns=2)
+    }
 

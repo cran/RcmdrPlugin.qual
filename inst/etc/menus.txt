@@ -8,22 +8,22 @@ menu    qualaMenu       topMenu         ""                                      
 
 item    qualaMenu       command         "Goodness of fit"                 gofMod           "activeDataSetP()"                      "packageAvailable('qcc')"
 item    qualaMenu       command         "reshape data frame"              shapeMod         "activeDataSetP()"                      "packageAvailable('qcc')"
-item    qualaMenu       command         "xbar chart"              xbara         ""                      "packageAvailable('qcc')"
-item    qualaMenu       command         "xbar chart with new data"              xbarnew         ""                      "packageAvailable('qcc')"
-item    qualaMenu       command         "R chart"              rchart         ""                      "packageAvailable('qcc')"
-item    qualaMenu       command         "S chart"              schart         ""                      "packageAvailable('qcc')"
-item    qualaMenu       command         "p chart"              pchart         ""                      "packageAvailable('qcc')"
-item    qualaMenu       command         "np chart"              npchart         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "xbar chart"              xbara         "activeDataSetP()"                      "packageAvailable('qcc')"
+item    qualaMenu       command         "xbar chart with new data"              xbarnew         "activeDataSetP()"                      "packageAvailable('qcc')"
+item    qualaMenu       command         "R chart"              rchart         "activeDataSetP()"                      "packageAvailable('qcc')"
+item    qualaMenu       command         "S chart"              schart         "activeDataSetP()"                      "packageAvailable('qcc')"
+item    qualaMenu       command         "p chart"              pchart         "activeDataSetP()"                      "packageAvailable('qcc')"
+item    qualaMenu       command         "np chart"              npchart         "activeDataSetP()"                      "packageAvailable('qcc')"
 
-item    qualaMenu       command         "c chart"              cchart         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "c chart"              cchart         "activeDataSetP()"                      "packageAvailable('qcc')"
 
-item    qualaMenu       command         "u chart"              uchart         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "u chart"              uchart         "activeDataSetP()"                      "packageAvailable('qcc')"
 
 
 item    qualaMenu       command         "Pareto chart"              paretoMod         "factorsP()"                      "packageAvailable('qcc')"
-item    qualaMenu       command         "Indiv. xbar"              xbaro         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "Indiv. xbar"              xbaro         "activeDataSetP()"                      "packageAvailable('qcc')"
 
-item    qualaMenu       command         "Moving Range Chart"              movranMod         ""                      "packageAvailable('qcc')"
+item    qualaMenu       command         "Moving Range Chart"              movranMod         "activeDataSetP()"                      "packageAvailable('qcc')"
 
 item    qualaMenu       command         "EWMA chart"              ewMod         "activeDataSetP()"                      "packageAvailable('qcc')"
 
@@ -42,6 +42,9 @@ item    qualaMenu       command         "p chart for different sizes"           
 item    qualaMenu       command         "np chart for different sizes"              npschart         "activeDataSetP()"                      "packageAvailable('qcc')"
 
 item    qualaMenu       command         "u chart for different sizes"              uschart         "activeDataSetP()"                      "packageAvailable('qcc')"
+
+
+item    qualaMenu       command         "c chart for different sizes"              cschart         "activeDataSetP()"                      "packageAvailable('qcc')"
 
 
 

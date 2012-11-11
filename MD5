@@ -1,9 +1,9 @@
-1719329a452d6d43c9da0ea95c4c1474 *DESCRIPTION
+b1c792ce29b684fef1dca4269af70448 *DESCRIPTION
 40a41a73e9032cbd7e99eccc36a00a26 *INDEX
 f6e12da1d70ae3f7276e2c9f2ba77883 *NAMESPACE
-182dea32a800da41965a1d3d5f7e0e84 *R/RcmdrPlugin.qual.R
+24bb7d74d00b377fd92e5f4c6dd0a924 *R/RcmdrPlugin.qual.R
 9d40d38add961aa985c8a3e99f5ffac9 *inst/etc/backup
-cefcff405c9ff9b81612c0fba114bc63 *inst/etc/menus.txt
+4b4ef501c1aa176173f3843c74cef385 *inst/etc/menus.txt
 849f3995c49f8039a1b3df8505415b43 *inst/etc/model-classes.txt
-ceb4b47f5955ab2067c3ffd4a352921b *man/RcmdrPlugin.qual-internal.Rd
+9d690e793104ebd7bead4bb2c6607772 *man/RcmdrPlugin.qual-internal.Rd
 57e703f605659a5c5ee0ba0c81324d27 *man/RcmdrPlugin.qual-package.Rd

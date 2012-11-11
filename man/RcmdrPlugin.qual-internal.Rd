@@ -25,6 +25,8 @@
 \alias{gof1}
 \alias{gofMod}
 \alias{xbarnew}
+\alias{cschart}
+
 
 
 
