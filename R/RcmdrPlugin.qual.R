@@ -188,11 +188,32 @@ freq1 <- as.numeric(tclvalue(freqVariable))
 shapeMod <- function(){
     initializeDialog(title=gettextRcmdr("Shape a data frame"))
     xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
+
+    dsname <- tclVar(gettextRcmdr("Dataset"))
+   
+    entryDsname <- tkentry(top, width="20", textvariable=dsname)
     
     onOK <- function(){
+  dsnameValue <- trim.blanks(tclvalue(dsname))
+        if (dsnameValue == "") {
+            errorCondition(recall=shapeMod, 
+                message=gettextRcmdr("You must enter the name of a data set."))  
+            return()
+            }  
+        if (!is.valid.name(dsnameValue)) {
+            errorCondition(recall=newDataSet,
+                message=paste('"', dsnameValue, '" ', gettextRcmdr("is not a valid name."), sep=""))
+            return()
+            }
+        if (is.element(dsnameValue, listDataSets())) {
+            if ("no" == tclvalue(checkReplace(dsnameValue, gettextRcmdr("Data set")))){
+                newDataSet()
+                return()
+	}
+	}
         x <- getSelection(xBox)
         if (length(x) == 0){
-            errorCondition(recall=pchart, message=gettextRcmdr("You must select a variable."))
+            errorCondition(recall=shapeMod, message=gettextRcmdr("You must select a variable."))
             return()
             }
 
@@ -213,58 +234,30 @@ freq1 <- as.numeric(tclvalue(freqVariable))
 activeDataSet(dsnameValue)
 
          closeDialog()
-
-       freqFrame <- tkframe(top)
-    freqVariable <- tclVar("1")
-    freqField <- tkentry(freqFrame, width="6", textvariable=freqVariable)
-      tkgrid(getFrame(xBox), sticky="nw") 
-   tkgrid(tklabel(freqFrame, text=gettextRcmdr("Number of rows: ")), freqField, sticky="w")
-    tkgrid(freqFrame, sticky="w")
-  
-    tkgrid(buttonsFrame, columnspan=2, sticky="w")
-    tkgrid.configure(freqField, sticky="e")
- tkgrid(buttonsFrame, columnspan="2", sticky="w")
-  
- 	
-    dialogSuffix(rows=4, columns=2)
-    }
-
-
-shape1 <- function(x,freq) {
-	reshape = function(df,nrow,ncol,byrow=TRUE)data.frame(matrix(as.matrix(df),nrow,ncol,byrow=byrow))
-	n1 <- length(x)
-	nc1 <- floor(n1/freq)
-	y <- reshape(df=x,nrow=freq,ncol=nc1)
-	assign("new.df",y,envir=.GlobalEnv)
 	}
-
-paretoMod <- function(){
-
-
- command <- paste('qcc(',ActiveDataSet(),'$',x,',"p",size=',freq1,')',sep="")
- 
-
-	justDoIt(command)
-        logger(command)
- activeDataSet(dsnameValue)
-        tkdestroy(top)
-        tkfocus(CommanderWindow())
-        }
-    OKCancelHelp(helpSubject="qcc")
-    freqFrame <- tkframe(top)
+ OKCancelHelp(helpSubject="qcc")
+       freqFrame <- tkframe(top)
+   tkgrid(tklabel(top, text=gettextRcmdr("Enter name for data set:")), entryDsname, sticky="e")
     freqVariable <- tclVar("1")
     freqField <- tkentry(freqFrame, width="6", textvariable=freqVariable)
       tkgrid(getFrame(xBox), sticky="nw") 
    tkgrid(tklabel(freqFrame, text=gettextRcmdr("Number of rows: ")), freqField, sticky="w")
     tkgrid(freqFrame, sticky="w")
-  
-    tkgrid(buttonsFrame, columnspan=2, sticky="w")
+      tkgrid(getFrame(xBox), sticky="nw") 
+
+   tkgrid(buttonsFrame, columnspan=2, sticky="w")
+
+ tkgrid.configure(entryDsname, sticky="w")
     tkgrid.configure(freqField, sticky="e")
- tkgrid(buttonsFrame, columnspan="2", sticky="w")
+
   
  	
     dialogSuffix(rows=4, columns=2)
     }
+
+
+
+
 
 shape1 <- function(x,freq) {
 	reshape1<-  function(df,nrow,ncol,byrow=TRUE)data.frame(matrix(as.matrix(df),nrow,ncol,byrow=byrow))
