@@ -8,15 +8,38 @@
 
 .onAttach <- function(libname, pkgname){
         if (!interactive()) return()
-        Rcmdr <- options()$Rcmdr
-        plugins <- Rcmdr$plugins
-        if ((!pkgname %in% plugins) && !getRcmdr("autoRestart")) {
-                Rcmdr$plugins <- c(plugins, pkgname)
-                options(Rcmdr=Rcmdr)
-                closeCommander(ask=FALSE, ask.save=TRUE)
-                Commander()
-        }
+ #       Rcmdr <- options()$Rcmdr
+ #       plugins <- Rcmdr$plugins
+ #       if ((!pkgname %in% plugins) && !getRcmdr("autoRestart")) {
+ #               Rcmdr$plugins <- c(plugins, pkgname)
+ #               options(Rcmdr=Rcmdr)
+ #               closeCommander(ask=FALSE, ask.save=TRUE)
+ #               Commander()
+ #       }
+
+ Rcmdr <- options()$Rcmdr
+  plugins <- Rcmdr$plugins
+
+  if (!pkgname %in% plugins) {
+      Rcmdr$plugins <- c(plugins, pkgname)
+      Rcmdr$ask.on.exit <- FALSE
+      options(Rcmdr=Rcmdr)
+
+      if("package:Rcmdr" %in% search()) {
+          if(!getRcmdr("autoRestart")) {
+              closeCommander(ask=FALSE, ask.save=TRUE)
+              Commander()
+          }
+      }
+      else {
+          if(packageVersion("Rcmdr") < "2.0-0")
+              stop(.gettext("This package requires Rcmdr version 2.0-0 or higher."))
+
+          Commander()
+      }
 }
+}
+
 
     
    
@@ -321,7 +344,7 @@ xbaro <- function() {
 
 ewMod <- function(){
   initializeDialog(title=gettextRcmdr("EWMA"))
-  require(qcc)
+
     xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
     onOK <- function(){
         x <- getSelection(xBox)
@@ -594,7 +617,6 @@ uschart <- function() {
 
 cusumMod <- function(){
   initializeDialog(title=gettextRcmdr("CUSUM chart"))
-  require(qcc)
     xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
     onOK <- function(){
         x <- getSelection(xBox)
@@ -620,7 +642,6 @@ cusumMod <- function(){
 
 movranMod <- function(){
   initializeDialog(title=gettextRcmdr("Moving Range chart"))
-  require(qcc)
     xBox <- variableListBox(top, Numeric(), title=gettextRcmdr("Variable (pick one)"))
     onOK <- function(){
         x <- getSelection(xBox)
@@ -645,7 +666,7 @@ movranMod <- function(){
 
 
 movrange1 <- function(x) {
-	  require(qcc)	  
+	   	  
 	  n1 <- length(x)
 	  y <- numeric(length=(n1-1))
 	  for(i in 1:(n1-1)) {
@@ -701,8 +722,6 @@ gofMod <- function(){
 
 
 gof1 <- function(x) {
-	require(MASS)
-	require(vcd)
         if(all(x>0)) {
 	xw <- fitdistr(x,densfun=dweibull,start=list(scale=1,shape=2))
 	xl <- fitdistr(x,densfun="lognormal")

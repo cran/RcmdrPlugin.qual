@@ -1,2 +1,4 @@
-import(tcltk, stats)
-exportPattern("^[^\\.]")
+importFrom(tcltk)
+importFrom(stats)
+import(Rcmdr)
+exportPattern(".")
